@@ -26,13 +26,11 @@ runs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: |
         composer install
-
     - name: Create .env
       shell: bash
       run: |
         cp .env.ci .env
         cp .env.ci .env.testing
-
     - name: Generate the key
       shell: bash
       run: |

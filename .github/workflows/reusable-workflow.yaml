@@ -1,0 +1,43 @@
+name: Reusable Workflow
+
+# trigger
+on:
+  workflow_call:
+    inputs:
+      cache-key:
+        description: "Cache key"
+        required: true
+        type: string
+
+jobs:
+  common:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+
+      - name: Restore the Cache
+        id: cache
+        uses: actions/cache@v4.0.2
+        with:
+          path: ./vendor
+          key: ${{ inputs['cache-key'] }}
+
+      - name: Composer Install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          composer install
+
+      - name: Create .env
+        run: |
+          cp .env.ci .env
+          cp .env.ci .env.testing
+
+      - name: Generate the key
+        run: |
+          php artisan key:generate

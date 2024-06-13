@@ -13,4 +13,5 @@ jobs:
     uses: ./.github/workflows/build.yaml
   test:
     name: Test Laravel App
+    needs: [build]
     uses: ./.github/workflows/test.yaml

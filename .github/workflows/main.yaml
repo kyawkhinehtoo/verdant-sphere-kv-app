@@ -9,15 +9,10 @@ on:
 
 jobs:
   build:
-    name: "Building The Laravel App"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Build Laravel App
-        uses: ./.github/actions
-        with:
-          cache-key: ${{ github.sha }}-php-vendor-cache
+    name: Build Laravel App
+    uses: ./.github/workflows/reusable.yaml@{ref}
+    with:
+      cache-key: ${{ github.sha }}-php-vendor-cache
 
   test:
     name: Test the Application
@@ -34,10 +29,8 @@ jobs:
           MYSQL_USERNAME: root
           MYSQL_DATABASE: test
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Call Composite
-        uses: ./.github/actions
+      - name: Call Reusable
+        uses: ./.github/workflows/reusable.yaml@{ref}
         with:
           cache-key: ${{ github.sha }}-php-vendor-cache
       - name: Migrate the Database

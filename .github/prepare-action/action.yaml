@@ -4,13 +4,36 @@ inputs:
   php-version:
     description: "PHP Version"
     required: true
-
+  cache-key:
+    description: "Cache key"
+    required: true
 runs:
   using: "composite"
   steps:
-    - name: Checkout
-      uses: actions/checkout@v4
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{inputs.php-version}}
+    - name: Restore the Cache
+      id: cache
+      uses: actions/cache@v4.0.2
+      with:
+        path: ./vendor
+        key: ${{ inputs['cache-key'] }}
+
+    - name: Composer Install
+      shell: bash
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: |
+        composer install
+
+    - name: Create .env
+      shell: bash
+      run: |
+        cp .env.ci .env
+        cp .env.ci .env.testing
+
+    - name: Generate the key
+      shell: bash
+      run: |
+        php artisan key:generate

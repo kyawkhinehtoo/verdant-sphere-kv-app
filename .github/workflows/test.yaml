@@ -26,13 +26,10 @@ jobs:
           --health-timeout=5s
           --health-retries=3
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - name: Build Laravel App
+        uses: ./.github/actions
         with:
-          php-version: ${{inputs.php-version}}
+          php-version: ${{ inputs.version }}
 
       - name: Restore the Cache
         id: cache

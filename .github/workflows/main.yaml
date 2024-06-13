@@ -11,9 +11,6 @@ jobs:
   build:
     name: Build Laravel App
     uses: ./.github/workflows/build.yaml
-    with:
-      cache-key: ${{ github.sha }}-php-vendor-cache
-      unit-test: false
   test:
     name: Test the Application
     runs-on: ubuntu-latest

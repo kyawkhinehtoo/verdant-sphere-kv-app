@@ -1,32 +1,26 @@
-name: Reusable Workflow
-
-# trigger
+name: Test Laravel App
 on:
   workflow_call:
-    inputs:
-      cache-key:
-        description: "Cache key"
-        required: true
-        type: string
-      unit-test:
-        description: "Unit Test"
-        required: true
-        type: boolean
-
+jobs:
+  test:
+    name: Test the Application
+    runs-on: ubuntu-latest
+    needs: [build]
     services:
-      if: ${{inputs.unit_test}}
       mysql:
-        image: mysql:latest
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: DJNosjhO
+          MYSQL_DATABASE: laravel_db
+          MYSQL_USER: keyvalue_user
+          MYSQL_PASSWORD: 6zFJfBEN
         ports:
           - 3306:3306
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_USERNAME: root
-          MYSQL_DATABASE: test
-jobs:
-  common:
-    runs-on: ubuntu-latest
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,7 +35,7 @@ jobs:
         uses: actions/cache@v4.0.2
         with:
           path: ./vendor
-          key: ${{ inputs['cache-key'] }}
+          key: ${{ github.sha }}-php-vendor-cache
 
       - name: Composer Install
         if: steps.cache.outputs.cache-hit != 'true'
@@ -50,17 +44,16 @@ jobs:
 
       - name: Create .env
         run: |
-          cp .env.ci .env
-          cp .env.ci .env.testing
+          cp .env.testing .env
 
       - name: Generate the key
         run: |
           php artisan key:generate
+
       - name: Migrate the Database
-        if: ${{input.unit_test}}
         run: |
           php artisan migrate
+
       - name: Run Unit Testing
-        if: ${{input.unit_test}}
         run: |
           php artisan test

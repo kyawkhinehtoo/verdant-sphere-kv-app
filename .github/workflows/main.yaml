@@ -12,6 +12,8 @@ jobs:
     name: "Building The Laravel App"
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Build Laravel App
         uses: ./.github/actions/action.yaml
         with:
@@ -32,6 +34,8 @@ jobs:
           MYSQL_USERNAME: root
           MYSQL_DATABASE: test
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Call Composite
         uses: ./.github/actions/action.yaml
         with:

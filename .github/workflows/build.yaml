@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build Laravel App
-        uses: ./.github/actions
+        uses: ./.github/prepare-actions
         with:
           php-version: ${{ inputs.version }}
 

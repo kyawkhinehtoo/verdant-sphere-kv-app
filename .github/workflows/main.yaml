@@ -13,10 +13,11 @@ jobs:
     uses: ./.github/workflows/reusable.yaml
     with:
       cache-key: ${{ github.sha }}-php-vendor-cache
+
   test:
     name: Test the Application
-    runs-on: ubuntu-latest
     needs: [build]
+    runs-on: ubuntu-latest
     services:
       mysql:
         image: mysql:latest
@@ -24,11 +25,11 @@ jobs:
           - 3306:3306
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_USERNAME: root
           MYSQL_DATABASE: test
     steps:
-      - name: Common Steps
+      - name: Call Reusable
         uses: ./.github/workflows/reusable.yaml
         with:
           cache-key: ${{ github.sha }}-php-vendor-cache

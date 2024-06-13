@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build Laravel App
-        uses: ./.github/actions/reusable.yaml
+        uses: ./.github/actions/action.yaml
         with:
           cache-key: ${{ github.sha }}-php-vendor-cache
 
@@ -33,7 +33,7 @@ jobs:
           MYSQL_DATABASE: test
     steps:
       - name: Call Composite
-        uses: ./.github/actions/reusable.yaml
+        uses: ./.github/actions/action.yaml
         with:
           cache-key: ${{ github.sha }}-php-vendor-cache
       - name: Migrate the Database

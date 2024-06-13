@@ -1,19 +1,19 @@
-name: "Reusable Workflow with Composite"
-description: "Reusable steps"
-
+name: Prepare Action
+description: "Prepre Composite Action"
 inputs:
+  php-version:
+    description: "PHP Version"
+    required: true
   cache-key:
     description: "Cache key"
     required: true
-
 runs:
   using: "composite"
   steps:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: "8.3"
-
+        php-version: ${{inputs.php-version}}
     - name: Restore the Cache
       id: cache
       uses: actions/cache@v4.0.2
@@ -26,13 +26,11 @@ runs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: |
         composer install
-
     - name: Create .env
       shell: bash
       run: |
-        cp .env.ci .env
-        cp .env.ci .env.testing
 
+        cp .env.testing .env
     - name: Generate the key
       shell: bash
       run: |

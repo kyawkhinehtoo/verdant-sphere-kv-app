@@ -29,8 +29,8 @@ runs:
     - name: Create .env
       shell: bash
       run: |
-        cp .env.ci .env
-        cp .env.ci .env.testing
+
+        cp .env.testing .env
     - name: Generate the key
       shell: bash
       run: |

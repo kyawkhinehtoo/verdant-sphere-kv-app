@@ -10,12 +10,9 @@ on:
 jobs:
   build:
     name: Build Laravel App
-    runs-on: ubuntu-latest
-    steps:
-      - name: Resuable Steps
-        uses: ./.github/workflows/reusable.yml
-        with:
-          cache-key: ${{ github.sha }}-php-vendor-cache
+    uses: ./.github/workflows/reusable.yml
+    with:
+      cache-key: ${{ github.sha }}-php-vendor-cache
   test:
     name: Test the Application
     runs-on: ubuntu-latest

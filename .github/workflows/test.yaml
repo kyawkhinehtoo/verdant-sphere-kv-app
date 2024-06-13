@@ -27,7 +27,7 @@ jobs:
           --health-retries=3
     steps:
       - name: Build Laravel App
-        uses: ./.github/prepare-actions
+        uses: ./.github/prepare-action
         with:
           php-version: ${{ inputs.version }}
 

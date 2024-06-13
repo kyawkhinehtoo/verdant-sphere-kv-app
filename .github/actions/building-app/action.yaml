@@ -5,7 +5,6 @@ inputs:
   cache-key:
     description: "Cache key"
     required: true
-    type: string
 
 runs:
   using: "composite"

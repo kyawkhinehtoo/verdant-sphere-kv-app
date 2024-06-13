@@ -2,7 +2,7 @@ name: Test Laravel App
 on:
   workflow_call:
     inputs:
-      php_version:
+      php-version:
         description: "PHP Version"
         required: true
         type: string
@@ -32,7 +32,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{inputs.php_version}}
+          php-version: ${{inputs.php-version}}
 
       - name: Restore the Cache
         id: cache

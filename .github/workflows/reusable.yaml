@@ -8,7 +8,21 @@ on:
         description: "Cache key"
         required: true
         type: string
-
+      unit-test:
+        description: "Unit Test"
+        required: true
+        type: boolean
+    services:
+      if: ${{inputs.unit_test}}
+      mysql:
+        image: mysql:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_USERNAME: root
+          MYSQL_DATABASE: test
 jobs:
   common:
     runs-on: ubuntu-latest
@@ -41,3 +55,11 @@ jobs:
       - name: Generate the key
         run: |
           php artisan key:generate
+      - name: Migrate the Database
+        if: ${{input.unit_test}}
+        run: |
+          php artisan migrate
+      - name: Run Unit Testing
+        if: ${{input.unit_test}}
+        run: |
+          php artisan test

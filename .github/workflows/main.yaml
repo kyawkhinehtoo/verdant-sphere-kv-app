@@ -13,30 +13,11 @@ jobs:
     uses: ./.github/workflows/reusable.yaml
     with:
       cache-key: ${{ github.sha }}-php-vendor-cache
-
+      unit-test: false
   test:
     name: Test the Application
+    uses: ./.github/workflows/reusable.yaml
+    with:
+      cache-key: ${{ github.sha }}-php-vendor-cache
+      unit-test: true
     needs: [build]
-    runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:latest
-        ports:
-          - 3306:3306
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_USERNAME: root
-          MYSQL_DATABASE: test
-    steps:
-      - name: Call Reusable
-        uses: ./.github/workflows/reusable.yaml
-        with:
-          cache-key: ${{ github.sha }}-php-vendor-cache
-      - name: Migrate the Database
-        run: |
-          php artisan migrate
-
-      - name: Run Unit Testing
-        run: |
-          php artisan test

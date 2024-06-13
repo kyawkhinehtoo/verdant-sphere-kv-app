@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Resuable Steps
-        uses: ./.github/workflows/reusable-workflow.yml
+        uses: ./.github/workflows/reusable.yml
         with:
           cache-key: ${{ github.sha }}-php-vendor-cache
   test:
@@ -32,7 +32,7 @@ jobs:
           MYSQL_DATABASE: test
     steps:
       - name: Common Steps
-        uses: ./.github/workflows/reusable-workflows.yml
+        uses: ./.github/workflows/reusable.yml
         with:
           cache-key: ${{ github.sha }}-php-vendor-cache
       - name: Migrate the Database

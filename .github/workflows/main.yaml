@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Build Laravel App
-        uses: ./.github/actions/action.yaml
+        uses: actions/action.yaml
         with:
           cache-key: ${{ github.sha }}-php-vendor-cache
 
@@ -37,7 +37,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Call Composite
-        uses: ./.github/actions/action.yaml
+        uses: actions/action.yaml
         with:
           cache-key: ${{ github.sha }}-php-vendor-cache
       - name: Migrate the Database

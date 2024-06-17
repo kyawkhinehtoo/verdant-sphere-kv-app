@@ -49,7 +49,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/verdant-sphere-kv:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/verdant-sphere-kv:latest
 
       - name: Image digest
         run: echo ${{ steps.build-and-push.outputs.digest }}

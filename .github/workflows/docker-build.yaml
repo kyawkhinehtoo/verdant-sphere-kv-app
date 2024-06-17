@@ -11,6 +11,7 @@ on:
         required: true
       DB_PASSWORD:
         required: true
+permissions: write-all
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -42,12 +43,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest --no-interaction
-
-      - name: Copy .env.ci to .env
-        run: cp .env.ci .env
-
       - name: Set up Laravel environment
         run: |
           php artisan key:generate
@@ -63,3 +58,22 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.build-and-push.outputs.digest }}
+      - name: Create .env file
+        run: |
+          cat <<EOF > .env
+          APP_NAME=Laravel
+          APP_ENV=production
+          APP_KEY=
+          APP_DEBUG=false
+          APP_URL=http://localhost
+          LOG_CHANNEL=stack
+          DB_CONNECTION=mysql
+          DB_HOST=mysql
+          DB_PORT=3306
+          DB_DATABASE=laravel_db
+          DB_USERNAME=${{ secrets.DB_USERNAME }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          EOF
+
+      - name: Copy .env file to container
+        run: docker cp .env verdant-sphere-kv:/var/www/html/.env

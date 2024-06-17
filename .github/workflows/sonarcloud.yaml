@@ -6,6 +6,13 @@ on:
         description: "PHP Version"
         required: true
         type: string
+    secrets:
+      SONAR_TOKEN:
+        required: true
+      SONAR_ORGANIZATION:
+        required: true
+      SONAR_PROJECT:
+        required: true
 jobs:
   sonarcloud:
     name: Scan SonarCloud Job

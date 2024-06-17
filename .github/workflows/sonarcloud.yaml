@@ -25,10 +25,6 @@ jobs:
         with:
           php-version: ${{ inputs.version }}
           cache-key: ${{ github.sha }}-php-vendor-cache
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@v2.3.0
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Analyze with SonarCloud
         uses: sonarsource/sonarcloud-github-action@v2.3.0
         with:
@@ -36,4 +32,5 @@ jobs:
           args: >
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
             -Dsonar.verbose=true

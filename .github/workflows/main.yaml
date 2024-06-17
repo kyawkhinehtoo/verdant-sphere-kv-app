@@ -29,3 +29,9 @@ jobs:
       SONAR_PROJECT: ${{ secrets.SONAR_PROJECT }}
     with:
       php-version: "8.3"
+  trivyfs-file:
+    name: File Security Scan with Trivy FS
+    needs: [build]
+    uses: ./.github/workflows/trivyfs-file.yaml
+    with:
+      php-version: "8.3"

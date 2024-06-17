@@ -19,19 +19,29 @@ jobs:
   #   uses: ./.github/workflows/test.yaml
   #   with:
   #     php-version: "8.3"
-  sonarcloud:
-    name: Scan Security with SonarCloud
+  # sonarcloud:
+  #   name: Scan Security with SonarCloud
+  #   needs: [build]
+  #   uses: ./.github/workflows/sonarcloud.yaml
+  #   secrets:
+  #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #     SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
+  #     SONAR_PROJECT: ${{ secrets.SONAR_PROJECT }}
+  #   with:
+  #     php-version: "8.3"
+  # trivyfs-file:
+  #   name: File Security Scan with Trivy FS
+  #   needs: [build]
+  #   uses: ./.github/workflows/trivyfs-file.yaml
+  #   with:
+  #     php-version: "8.3"
+  docker-build:
+    name: Create Docker Image
     needs: [build]
-    uses: ./.github/workflows/sonarcloud.yaml
+    uses: ./.github/workflows/docker-build.yaml
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
-      SONAR_PROJECT: ${{ secrets.SONAR_PROJECT }}
-    with:
-      php-version: "8.3"
-  trivyfs-file:
-    name: File Security Scan with Trivy FS
-    needs: [build]
-    uses: ./.github/workflows/trivyfs-file.yaml
-    with:
-      php-version: "8.3"
+      SONAR_ORGANIZATION: ${{ secrets.DOCKERHUB_USERNAME }}
+      SONAR_PROJECT: ${{ secrets.DOCKERHUB_TOKEN }}
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}

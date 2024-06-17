@@ -43,11 +43,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Set up Laravel environment
-        run: |
-          php artisan key:generate
-          php artisan migrate --force
-
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
@@ -77,3 +72,8 @@ jobs:
 
       - name: Copy .env file to container
         run: docker cp .env verdant-sphere-kv:/var/www/html/.env
+
+      - name: Set up Laravel environment
+        run: |
+          php artisan key:generate
+          php artisan migrate --force

@@ -18,14 +18,6 @@ jobs:
         with:
           php-version: ${{ inputs.version }}
           cache-key: ${{ github.sha }}-php-vendor-cache
-      - name: Test Keys
-        run: |
-          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
-            echo "SONAR_TOKEN is empty or not set"
-            exit 1
-          else
-            echo "SONAR_TOKEN is set OK"
-          fi
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@v2.3.0
         env:

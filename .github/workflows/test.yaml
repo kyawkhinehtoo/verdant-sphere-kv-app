@@ -1,0 +1,43 @@
+name: Test Laravel App
+on:
+  workflow_call:
+    inputs:
+      php-version:
+        description: "PHP Version"
+        required: true
+        type: string
+jobs:
+  test:
+    name: Test the Application
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: DJNosjhO
+          MYSQL_DATABASE: laravel_db
+          MYSQL_USER: keyvalue_user
+          MYSQL_PASSWORD: 6zFJfBEN
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build Laravel App
+        uses: ./.github/prepare-action
+        with:
+          php-version: ${{ inputs.version }}
+          cache-key: ${{ github.sha }}-php-vendor-cache
+
+      - name: Migrate the Database
+        run: |
+          php artisan migrate
+
+      - name: Run Unit Testing
+        run: |
+          php artisan test

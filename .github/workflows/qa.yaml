@@ -1,0 +1,16 @@
+name: CI Workflow
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    name: Build Laravel App
+    uses: ./.github/workflows/build.yaml
+    with:
+      php-version: "8.3"
+  test:
+    name: Test Laravel App
+    needs: [build]
+    uses: ./.github/workflows/test.yaml
+    with:
+      php-version: "8.3"

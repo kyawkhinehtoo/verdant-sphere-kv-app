@@ -1,0 +1,42 @@
+name: CI Workflow
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build:
+    name: Build Laravel App
+    uses: ./.github/workflows/reusable.yaml
+    with:
+      cache-key: ${{ github.sha }}-php-vendor-cache
+
+  test:
+    name: Test the Application
+    needs: [build]
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:latest
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_USERNAME: root
+          MYSQL_DATABASE: test
+    steps:
+      - name: Call Reusable
+        uses: ./.github/workflows/reusable.yaml
+        with:
+          cache-key: ${{ github.sha }}-php-vendor-cache
+      - name: Migrate the Database
+        run: |
+          php artisan migrate
+
+      - name: Run Unit Testing
+        run: |
+          php artisan test

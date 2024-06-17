@@ -1,0 +1,20 @@
+name: Build Laravel App
+on:
+  workflow_call:
+    inputs:
+      php-version:
+        description: "PHP Version"
+        required: true
+        type: string
+jobs:
+  build:
+    name: Build Laravel App
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build Laravel App
+        uses: ./.github/prepare-action
+        with:
+          php-version: ${{ inputs.version }}
+          cache-key: ${{ github.sha }}-php-vendor-cache

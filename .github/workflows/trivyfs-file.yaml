@@ -6,7 +6,6 @@ on:
         description: "PHP Version"
         required: true
         type: string
-permissions: write-all
 
 jobs:
   build:

@@ -23,5 +23,9 @@ jobs:
     name: Scan Security with SonarCloud
     needs: [build]
     uses: ./.github/workflows/sonarcloud.yaml
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
+      SONAR_PROJECT: ${{ secrets.SONAR_PROJECT }}
     with:
       php-version: "8.3"

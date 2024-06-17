@@ -1,9 +1,11 @@
-name: build
+name: File Scan with TrivyFS
 on:
-  push:
-    branches:
-      - main
-  pull_request:
+  workflow_call:
+    inputs:
+      php-version:
+        description: "PHP Version"
+        required: true
+        type: string
 jobs:
   build:
     name: Build

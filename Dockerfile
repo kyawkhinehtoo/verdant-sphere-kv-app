@@ -43,8 +43,3 @@ RUN composer install --no-dev --optimize-autoloader
 # Expose the web server port
 EXPOSE 80
 
-# Generate Key
-RUN php artisan key:generate
-
-# Wait for MySQL and run database migrations
-RUN php artisan migrate --force

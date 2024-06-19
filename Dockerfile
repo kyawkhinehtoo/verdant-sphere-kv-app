@@ -47,11 +47,4 @@ EXPOSE 80
 RUN php artisan key:generate
 
 # Wait for MySQL and run database migrations
-RUN set -e; \
-    host="mysql"; \
-    until mysql -h "$host" -u"${DB_USERNAME}" -p"${DB_PASSWORD}" -e 'SELECT 1'; do \
-      >&2 echo "MySQL is unavailable - sleeping"; \
-      sleep 1; \
-    done; \
-    >&2 echo "MySQL is up - executing command"; \
-    php artisan migrate --force
+RUN php artisan migrate --force

@@ -33,7 +33,22 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+      - name: Create .env file
+        run: |
+          cat <<EOF > .env
+          APP_NAME=Laravel
+          APP_ENV=production
+          APP_KEY=
+          APP_DEBUG=false
+          APP_URL=http://localhost
+          LOG_CHANNEL=stack
+          DB_CONNECTION=mysql
+          DB_HOST=mysql
+          DB_PORT=3306
+          DB_DATABASE=laravel_db
+          DB_USERNAME=${{ secrets.DB_USERNAME }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          EOF
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -53,33 +68,3 @@ jobs:
 
       - name: Image digest
         run: echo ${{ steps.build-and-push.outputs.digest }}
-      - name: Create .env file
-        run: |
-          cat <<EOF > .env
-          APP_NAME=Laravel
-          APP_ENV=production
-          APP_KEY=
-          APP_DEBUG=false
-          APP_URL=http://localhost
-          LOG_CHANNEL=stack
-          DB_CONNECTION=mysql
-          DB_HOST=mysql
-          DB_PORT=3306
-          DB_DATABASE=laravel_db
-          DB_USERNAME=${{ secrets.DB_USERNAME }}
-          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-          EOF
-      - name: Run Laravel Docker container
-        run: |
-          docker run -d --name laravel-app \
-            --link mysql:mysql \
-            -v $(pwd):/var/www/html \
-            -w /var/www/html \
-            -p 8000:8000 \
-            ${{ secrets.DOCKER_USERNAME }}/your-laravel-app:latest
-      - name: Copy .env file to container
-        run: docker cp .env laravel-app:/var/www/html/.env
-      - name: Set up Laravel environment
-        run: |
-          php artisan key:generate
-          php artisan migrate --force

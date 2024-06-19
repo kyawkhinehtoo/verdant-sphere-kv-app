@@ -8,6 +8,7 @@ WORKDIR /var/www/html
 RUN apt-get update -y && apt-get install -y --no-install-recommends \
     libicu-dev \
     libmariadb-dev \
+    default-mysql-client \
     unzip zip \
     zlib1g-dev \
     libpng-dev \

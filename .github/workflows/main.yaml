@@ -37,7 +37,7 @@ jobs:
       php-version: "8.3"
   docker-build:
     name: Create Docker Image
-    needs: [trivyfs-file]
+    needs: [trivyfs-file, sonarcloud]
     uses: ./.github/workflows/docker-build.yaml
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}

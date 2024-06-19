@@ -43,7 +43,7 @@ jobs:
           APP_URL=http://localhost
           LOG_CHANNEL=stack
           DB_CONNECTION=mysql
-          DB_HOST=mysql
+          DB_HOST=127.0.0.1
           DB_PORT=3306
           DB_DATABASE=laravel_db
           DB_USERNAME=${{ secrets.DB_USERNAME }}

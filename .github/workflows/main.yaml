@@ -44,3 +44,8 @@ jobs:
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
       DB_USERNAME: ${{ secrets.DB_USERNAME }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+
+  trivyfs-docker:
+    name: Docker File Security Scan with Trivy FS
+    needs: [docker-build]
+    uses: ./.github/workflows/trivyfs-docker.yaml

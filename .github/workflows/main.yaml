@@ -21,7 +21,7 @@ jobs:
       php-version: "8.3"
   sonarcloud:
     name: Scan Security with SonarCloud
-    needs: [build]
+    needs: [test]
     uses: ./.github/workflows/sonarcloud.yaml
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -31,13 +31,13 @@ jobs:
       php-version: "8.3"
   trivyfs-file:
     name: File Security Scan with Trivy FS
-    needs: [build]
+    needs: [test]
     uses: ./.github/workflows/trivyfs-file.yaml
     with:
       php-version: "8.3"
   docker-build:
     name: Create Docker Image
-    needs: [build]
+    needs: [trivyfs-file]
     uses: ./.github/workflows/docker-build.yaml
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}

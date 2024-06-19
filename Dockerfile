@@ -24,8 +24,6 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends \
 # Copy Composer from the official Composer image
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# List the file 
-RUN ls -la
 # Copy the application files
 COPY . .
 
@@ -42,19 +40,18 @@ USER www-data
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-
-# List the file after
-RUN ls -la
-
-# Check env
-RUN cat .env
 # Expose the web server port
 EXPOSE 80
 
 # Generate Key
 RUN php artisan key:generate
 
-# Run database migrations
-RUN php artisan migrate --force
-
-
+# Wait for MySQL and run database migrations
+RUN set -e; \
+    host="mysql"; \
+    until mysql -h "$host" -u"${DB_USERNAME}" -p"${DB_PASSWORD}" -e 'SELECT 1'; do \
+      >&2 echo "MySQL is unavailable - sleeping"; \
+      sleep 1; \
+    done; \
+    >&2 echo "MySQL is up - executing command"; \
+    php artisan migrate --force

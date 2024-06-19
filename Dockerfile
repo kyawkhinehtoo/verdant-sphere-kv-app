@@ -24,6 +24,8 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends \
 # Copy Composer from the official Composer image
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# List the file 
+RUN ls -la
 # Copy the application files
 COPY . .
 
@@ -34,8 +36,8 @@ COPY .env .env
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
 
-# # Switch to www-data user
-# USER www-data
+# Switch to www-data user
+USER www-data
 
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader

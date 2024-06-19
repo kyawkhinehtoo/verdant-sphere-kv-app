@@ -71,7 +71,7 @@ jobs:
           EOF
 
       - name: Copy .env file to container
-        run: docker cp .env verdant-sphere-kv:/var/www/html/.env
+        run: docker cp .env ${{ secrets.DOCKERHUB_USERNAME }}/verdant-sphere-kv:/var/www/html/.env
 
       - name: Set up Laravel environment
         run: |

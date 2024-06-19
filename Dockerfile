@@ -5,9 +5,10 @@ FROM php:8.3.6-apache
 WORKDIR /var/www/html
 
 # Enable Apache mod_rewrite module and install required libraries and PHP extensions
-RUN apt-get update -y && apt-get install -y --no-install-recommends \
+RUN apt-get update -y && apt-get upgrade -y && apt-get install -y --no-install-recommends \
     libicu-dev \
     libmariadb-dev \
+    default-mysql-client \
     unzip zip \
     zlib1g-dev \
     libpng-dev \
@@ -15,6 +16,7 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libzip-dev \
+    wget \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gettext intl pdo_mysql gd zip \
     && apt-get clean \

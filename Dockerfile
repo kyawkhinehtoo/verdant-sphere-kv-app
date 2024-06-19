@@ -45,6 +45,9 @@ RUN composer install --no-dev --optimize-autoloader
 
 # List the file after
 RUN ls -la
+
+# Check env
+RUN cat .env
 # Expose the web server port
 EXPOSE 80
 

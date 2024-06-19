@@ -27,9 +27,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy the application files
 COPY . .
 
-# Copy the environment file
-COPY .env .env
-
 # Set file ownership and permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html

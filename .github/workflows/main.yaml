@@ -49,3 +49,5 @@ jobs:
     name: Docker File Security Scan with Trivy FS
     needs: [docker-build]
     uses: ./.github/workflows/trivyfs-docker.yaml
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}

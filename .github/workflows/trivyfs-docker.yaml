@@ -1,7 +1,9 @@
 name: Docker Scan with TrivyFS
 on:
   workflow_call:
-
+    secrets:
+      DOCKERHUB_USERNAME:
+        required: true
 jobs:
   build:
     name: Build
@@ -11,11 +13,11 @@ jobs:
         uses: actions/checkout@v4
       - name: Build an image from Dockerfile
         run: |
-          docker build -t docker.io/kyawkhinehtoo/verdant-sphere-kv:${{ github.sha }} .
+          docker build -t docker.io/${{ secrets.DOCKERHUB_USERNAME }}/verdant-sphere-kv:${{ github.sha }} .
       - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@0.22.0
         with:
-          image-ref: "docker.io/kyawkhinehtoo/verdant-sphere-kv:${{ github.sha }}"
+          image-ref: "docker.io/${{ secrets.DOCKERHUB_USERNAME }}/verdant-sphere-kv:${{ github.sha }}"
           format: "table"
           exit-code: "1"
           ignore-unfixed: true

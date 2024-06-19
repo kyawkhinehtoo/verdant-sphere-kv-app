@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-        image: mysql:8.0
+        image: mysql:latest
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
           MYSQL_DATABASE: laravel_db
@@ -43,7 +43,7 @@ jobs:
           APP_URL=http://localhost
           LOG_CHANNEL=stack
           DB_CONNECTION=mysql
-          DB_HOST=127.0.0.1
+          DB_HOST=mysql
           DB_PORT=3306
           DB_DATABASE=laravel_db
           DB_USERNAME=${{ secrets.DB_USERNAME }}

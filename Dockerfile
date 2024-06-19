@@ -55,6 +55,6 @@ EXPOSE 80
 RUN php artisan key:generate
 
 # Run database migrations
-RUN php artisan migrate --force
+RUN php artisan migrate
 
 

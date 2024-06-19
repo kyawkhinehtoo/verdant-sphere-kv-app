@@ -4,6 +4,7 @@ on:
     secrets:
       DOCKERHUB_USERNAME:
         required: true
+permissions: write-all
 jobs:
   build:
     name: Build

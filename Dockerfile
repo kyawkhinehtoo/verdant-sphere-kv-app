@@ -42,6 +42,9 @@ USER www-data
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
+
+# List the file after
+RUN ls -la
 # Expose the web server port
 EXPOSE 80
 
